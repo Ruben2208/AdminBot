@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AdminBot Escolar</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>AdminBot</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-label">Principal</span>
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <div class="nav-section" id="menuAdmin" style="display: none;">
+                    <span class="nav-label">Administración</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-users-cog"></i>
+                        <span>Usuarios</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-school"></i>
+                        <span>Institución</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Calendario</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Reportes</span>
+                    </a>
+                </div>
+
+                <div class="nav-section" id="menuTeacher" style="display: none;">
+                    <span class="nav-label">Docente</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-book"></i>
+                        <span>Mis Cursos</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Calificaciones</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-user-check"></i>
+                        <span>Asistencia</span>
+                    </a>
+                </div>
+
+                <div class="nav-section" id="menuStudent" style="display: none;">
+                    <span class="nav-label">Académico</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Mis Materias</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-star"></i>
+                        <span>Calificaciones</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Horario</span>
+                    </a>
+                </div>
+
+                <div class="nav-section" id="menuParent" style="display: none;">
+                    <span class="nav-label">Seguimiento</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-child"></i>
+                        <span>Mi Estudiante</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Progreso</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Observaciones</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-label">Sistema</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-bell"></i>
+                        <span>Notificaciones</span>
+                        <span class="badge">3</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-details">
+                        <span class="user-name" id="userName">Usuario</span>
+                        <span class="user-role" id="userRole">Rol</span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="top-bar-actions">
+                    <button class="btn-icon">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="indicator"></span>
+                    </button>
+                    <div class="user-menu">
+                        <span id="headerUserName">Usuario</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <!-- Welcome Section -->
+                <div class="welcome-section" id="welcomeSection">
+                    <h1 id="welcomeTitle">Bienvenido</h1>
+                    <p id="welcomeSubtitle">Aquí está el resumen de tu actividad</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Se llena dinámicamente según el rol -->
+                </div>
+
+                <!-- Content Sections -->
+                <div class="content-grid">
+                    <div class="card main-card">
+                        <div class="card-header">
+                            <h3 id="mainCardTitle">Actividad Reciente</h3>
+                            <button class="btn-text">Ver todo</button>
+                        </div>
+                        <div class="card-content" id="mainCardContent">
+                            <!-- Contenido dinámico -->
+                        </div>
+                    </div>
+
+                    <div class="card side-card">
+                        <div class="card-header">
+                            <h3>Próximos Eventos</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="event-list">
+                                <div class="event-item">
+                                    <div class="event-date">
+                                        <span class="day">15</span>
+                                        <span class="month">ABR</span>
+                                    </div>
+                                    <div class="event-info">
+                                        <h4>Reunión de padres</h4>
+                                        <p>Auditorio principal • 4:00 PM</p>
+                                    </div>
+                                </div>
+                                <div class="event-item">
+                                    <div class="event-date">
+                                        <span class="day">18</span>
+                                        <span class="month">ABR</span>
+                                    </div>
+                                    <div class="event-info">
+                                        <h4>Entrega de notas</h4>
+                                        <p>Período académico Q1</p>
+                                    </div>
+                                </div>
+                                <div class="event-item">
+                                    <div class="event-date">
+                                        <span class="day">22</span>
+                                        <span class="month">ABR</span>
+                                    </div>
+                                    <div class="event-info">
+                                        <h4>Día de la Tierra</h4>
+                                        <p>Actividades especiales</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
