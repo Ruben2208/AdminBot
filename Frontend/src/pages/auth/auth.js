@@ -1,4 +1,37 @@
-// Configuración de campos específicos por rol
+import { request} from '../../shared/js/api.js';
+import {ValidarCorreo, limpiarError, mostrarError} from '../../shared/js/utils.js';
+import {guardarUsuario} from '../../shared/js/storage.js';
+
+const form = document.getElementById('loginForm');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const error = document.getElementById('errorMessage');
+const boton = document.getElementById('button-primary');
+
+form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    limpiarError();
+
+    const correo = email.value.trim();
+    const clave = password.value.trim();
+
+    if (!ValidarCorreo(correo)) {
+         mostrarError(error, 'correo invalido');
+         return;
+    }
+
+    if(clave.length < 6){
+       mostrarError(error, 'la contraseña debe tener minimo 6 caracteres');
+    }
+
+    try{}
+    catch{}
+    finally{}
+
+ });
+
+
 const roleConfig = {
     admin: {
         icon: 'fa-user-shield',
@@ -119,22 +152,21 @@ const roleConfig = {
     }
 };
 
-// Estado actual
+
 let currentRole = 'admin';
 
-// DOM Elements
 const roleCards = document.querySelectorAll('.role-card');
 const roleSpecificContainer = document.getElementById('roleSpecificFields');
 const loginForm = document.getElementById('loginForm');
 const togglePasswordBtn = document.querySelector('.toggle-password');
 const passwordInput = document.getElementById('password');
 
-// Inicializar
+
 document.addEventListener('DOMContentLoaded', () => {
     updateRoleFields('admin');
 });
 
-// Selección de rol
+
 roleCards.forEach(card => {
     card.addEventListener('click', () => {
         // Remover active de todos
@@ -147,7 +179,7 @@ roleCards.forEach(card => {
     });
 });
 
-// Actualizar campos específicos del rol
+
 function updateRoleFields(role) {
     const config = roleConfig[role];
     if (config) {
@@ -162,7 +194,7 @@ function updateRoleFields(role) {
     }
 }
 
-// Toggle password visibility
+
 togglePasswordBtn.addEventListener('click', () => {
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
@@ -170,7 +202,7 @@ togglePasswordBtn.addEventListener('click', () => {
     togglePasswordBtn.querySelector('i').classList.toggle('fa-eye-slash');
 });
 
-// Manejo del formulario
+
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -188,13 +220,13 @@ loginForm.addEventListener('submit', async (e) => {
         data[field.name] = field.value;
     });
 
-    // Validación básica
+    
     if (!data.email || !data.password) {
         showNotification('Por favor completa todos los campos', 'error');
         return;
     }
 
-    // Simular carga
+    
     const btn = loginForm.querySelector('.btn-login');
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
