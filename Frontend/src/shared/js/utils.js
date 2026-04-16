@@ -1,4 +1,4 @@
-export function validarCorreo(correo) {
+export function ValidarCorreo(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
 }
 
