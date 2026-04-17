@@ -8,20 +8,20 @@ export const getAll = async () => {
 export const create = async (data) => {
   const {
     id,
-    nombres,
-    apellidos,
-    correo,
+    first_name,
+    last_name,
+    email,
     password_hash,
-    telefono,
+    phone,
     rol,
-    activo,
+    is_active,
     created_at,
     updated_at
   } = data;
 
   const [result] = await db.query(
-    `INSERT INTO usuarios (id, nombres, apellidos, correo, password_hash, telefono, rol, activo, created_at, updated_at)
+    `INSERT INTO usuarios (id, first_name, last_name, email, password_hash, phone, rol, is_active, created_at, updated_at)
      VALUES (?,?,?,?,?,?,?,?,?,?)`,
-    [id, nombres, apellidos, correo, password_hash, telefono, rol, activo, created_at, updated_at]
+    [id, first_name, last_name, email, password_hash, phone, rol, is_active, created_at, updated_at]
   );
 };

@@ -8,12 +8,12 @@ export const getAll = async () => {
 export const create = async (data) => {
   const {
     id,
-    cuenta_por_cobrar_id,
-    registrado_por_id,
-    fecha_pago,
-    valor_pagado,
-    metodo_pago,
-    referencia,
+    account_receivable_id,
+    recorded_by_user_id,
+    payment_date,
+    amount_paid,
+    payment_method,
+    reference,
     created_at
   } = data;
 

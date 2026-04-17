@@ -8,28 +8,28 @@ export const getAll = async () => {
 export const create = async (data) => {
   const {
     id,
-    estudiante_id,
-    acudiente_id,
-    cuenta_por_cobrar_id,
-    telefono_destino,
-    mensaje,
-    fecha_envio,
-    estado_envio,
+    student_id,
+    guardian_id,
+    account_receivable_id,
+    destination_phone,
+    message,
+    sent_at,
+    delivery_status,
     created_at
   } = data;
 
   const [result] = await db.query(
-    `INSERT INTO notificaciones_whatsapp (id, estudiante_id, acudiente_id, cuenta_por_cobrar_id, telefono_destino, mensaje, fecha_envio, estado_envio, created_at)
+    `INSERT INTO notificaciones_whatsapp (id, student_id, guardian_id, account_receivable_id, destination_phone, message, sent_at, delivery_status, created_at)
      VALUES (?,?,?,?,?,?,?,?,?)`,
     [
       id,
-      estudiante_id,
-      acudiente_id,
-      cuenta_por_cobrar_id,
-      telefono_destino,
-      mensaje,
-      fecha_envio,
-      estado_envio,
+      student_id,
+      guardian_id,
+      account_receivable_id,
+      destination_phone,
+      message,
+      sent_at,
+      delivery_status,
       created_at
     ]
   );

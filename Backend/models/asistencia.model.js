@@ -8,29 +8,29 @@ export const getAll = async () => {
 export const create = async (data) => {
   const {
     id,
-    estudiante_id,
-    fecha,
-    estado,
-    hora_ingreso,
-    hora_salida,
-    observacion,
-    registrado_por_id,
+    student_id,
+    attendance_date,
+    status,
+    check_in_time,
+    check_out_time,
+    observation,
+    recorded_by_user_id,
     created_at,
     updated_at
   } = data;
 
   const [result] = await db.query(
-    `INSERT INTO asistencias (id, estudiante_id, fecha, estado, hora_ingreso, hora_salida, observacion, registrado_por_id, created_at, updated_at)
+    `INSERT INTO asistencias (id, student_id, attendance_date, status, check_in_time, check_out_time, observation, recorded_by_user_id, created_at, updated_at)
      VALUES (?,?,?,?,?,?,?,?,?,?)`,
     [
       id,
-      estudiante_id,
-      fecha,
-      estado,
-      hora_ingreso,
-      hora_salida,
-      observacion,
-      registrado_por_id,
+      student_id,
+      attendance_date,
+      status,
+      check_in_time,
+      check_out_time,
+      observation,
+      recorded_by_user_id,
       created_at,
       updated_at
     ]
