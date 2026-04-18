@@ -1,4 +1,4 @@
-import db from '../config/db.jd'
+import db from '../config/db.js'
 
 export const getDashboardData = async () => {
    const [students] = await db.query(

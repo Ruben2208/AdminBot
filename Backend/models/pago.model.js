@@ -14,6 +14,7 @@ export const create = async (data) => {
     amount_paid,
     payment_method,
     reference,
+    status,
     created_at
   } = data;
 
