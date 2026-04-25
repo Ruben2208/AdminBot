@@ -1,7 +1,19 @@
 import express from "express";
+import bcrypt from "bcrypt";
+import cors from "cors";
+import dotenv from "dotenv";
 
-import bcrypt from 'bcrypt';
+// 👇 CONFIGURAR ENV
+dotenv.config();
 
+// 👇 CREAR APP (PRIMERO)
+const app = express();
+
+// 👇 MIDDLEWARES
+app.use(cors());
+app.use(express.json());
+
+// 👇 IMPORTAR RUTAS
 import studenRoutes from './routes/students.route.js';
 import acudienteRoutes from './routes/acudientes.route.js';
 import pagoRoutes from './routes/pagos.route.js';
@@ -11,10 +23,7 @@ import notificacionRoutes from './routes/notificaciones.route.js';
 import authRoutes from './routes/auth.route.js';
 import dashboardRoutes from './routes/dashboard.route.js';
 
-const app = express();
-app.use(express.json())
-const PORT = 3000
-
+// 👇 USAR RUTAS
 app.use('/api', studenRoutes);
 app.use('/api', acudienteRoutes);
 app.use('/api', pagoRoutes);
@@ -24,23 +33,15 @@ app.use('/api', notificacionRoutes);
 app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
 
-app.get("/", (req, res)=>{
-    res.send("Api funcionando")
-})
+// 👇 RUTA BASE
+app.get("/", (req, res) => {
+    res.send("Api funcionando");
+});
 
-// const passwordList = [
-//     'joel123',
-//     'juan123',
-//     'andres123',
-//     'alejandro123',
-//     'guillermo123',
-// ]
+// 👇 PUERTO
+const PORT = 3000;
 
-// for(let i = 0; i < passwordList.length; i++){
-//     const hahs = await bcrypt.hash(passwordList[i], 10);
-//     console.log(`contraseña: ${passwordList[i]}, hash: ${hash}`)
-// }
-
-app.listen(PORT, ()=>{
-    console.log("Servidor corriendo LocalHost..." + PORT)
-})
+// 👇 LEVANTAR SERVIDOR
+app.listen(PORT, () => {
+    console.log("Servidor corriendo LocalHost..." + PORT);
+});

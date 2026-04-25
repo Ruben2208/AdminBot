@@ -118,7 +118,8 @@
                         <span class="user-role" id="userRole">Rol</span>
                     </div>
                 </div>
-                <button class="btn-logout" onclick="logout()">
+                <!-- ✅ IDs en vez de onclick -->
+                <button class="btn-logout" id="btnLogout">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
@@ -127,7 +128,8 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="top-bar">
-                <button class="menu-toggle" onclick="toggleSidebar()">
+                <!-- ✅ ID en vez de onclick -->
+                <button class="menu-toggle" id="btnMenuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="top-bar-actions">
@@ -212,7 +214,12 @@
             </div>
         </main>
     </div>
+    
+    <a href="../estudiantes/estudiantes.html" class="nav-item">
+    <i class="fas fa-user-graduate"></i>
+    <span>Estudiantes</span>
+   </a>
 
-    <script src="dashboard.js"></script>
+    <script type="module" src="./dashboard.js"></script>
 </body>
 </html>

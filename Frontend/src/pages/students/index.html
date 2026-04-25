@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudiantes - AdminBot</title>
+    <link rel="stylesheet" href="./estudiantes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>AdminBot</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="../dashboard/dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Estudiantes</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Profesores</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Acudientes</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Pagos</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Notificaciones</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="cerrarSesion()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1 class="header-title">
+                    <i class="fas fa-user-graduate"></i>
+                    Gestión de Estudiantes
+                </h1>
+                <div class="header-user">
+                    <span id="userName">Usuario</span>
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-primary">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalEstudiantes">0</span>
+                            <span class="stat-label">Total Estudiantes</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalGrados">0</span>
+                            <span class="stat-label">Grados</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-warning">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="añoEscolar">2026</span>
+                            <span class="stat-label">Año Escolar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="actions-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Buscar por nombre, apellido, documento o grado..."
+                            autocomplete="off"
+                        >
+                    </div>
+                    <button class="btn btn-primary" onclick="abrirModal()">
+                        <i class="fas fa-plus"></i>
+                        Nuevo Estudiante
+                    </button>
+                </div>
+
+                <!-- Table Container -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-list"></i> Lista de Estudiantes</h3>
+                        <span class="results-count" id="resultsCount">0 resultados</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Tipo Doc.</th>
+                                    <th>Documento</th>
+                                    <th>Fecha Nac.</th>
+                                    <th>Grado</th>
+                                    <th>Año Escolar</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaEstudiantes">
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron estudiantes</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Formulario -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">
+                    <i class="fas fa-user-plus"></i>
+                    Nuevo Estudiante
+                </h3>
+                <button class="modal-close" onclick="cerrarModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="formEstudiante" onsubmit="guardarEstudiante(event)">
+                <input type="hidden" id="studentId">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="student_code">Código Estudiante</label>
+                            <input type="text" id="student_code" required placeholder="Ej: EST001">
+                        </div>
+                        <div class="form-group">
+                            <label for="document_type">Tipo de Documento</label>
+                            <select id="document_type" required>
+                                <option value="">Seleccione...</option>
+                                <option value="CC">Cédula de Ciudadanía</option>
+                                <option value="TI">Tarjeta de Identidad</option>
+                                <option value="CE">Cédula de Extranjería</option>
+                                <option value="PA">Pasaporte</option>
+                                <option value="RC">Registro Civil</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first_name">Nombres</label>
+                            <input type="text" id="first_name" required placeholder="Nombres del estudiante">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Apellidos</label>
+                            <input type="text" id="last_name" required placeholder="Apellidos del estudiante">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="document_number">Número de Documento</label>
+                            <input type="text" id="document_number" required placeholder="Número de documento">
+                        </div>
+                        <div class="form-group">
+                            <label for="birth_date">Fecha de Nacimiento</label>
+                            <input type="date" id="birth_date" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="grade">Grado</label>
+                            <select id="grade" required>
+                                <option value="">Seleccione...</option>
+                                <option value="Pre-jardín">Pre-jardín</option>
+                                <option value="Jardín">Jardín</option>
+                                <option value="Transición">Transición</option>
+                                <option value="1°">1° Primaria</option>
+                                <option value="2°">2° Primaria</option>
+                                <option value="3°">3° Primaria</option>
+                                <option value="4°">4° Primaria</option>
+                                <option value="5°">5° Primaria</option>
+                                <option value="6°">6° Primaria</option>
+                                <option value="7°">7° Secundaria</option>
+                                <option value="8°">8° Secundaria</option>
+                                <option value="9°">9° Secundaria</option>
+                                <option value="10°">10° Secundaria</option>
+                                <option value="11°">11° Secundaria</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="school_year">Año Escolar</label>
+                            <input type="number" id="school_year" required min="2020" max="2030" value="2026">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnGuardar">
+                        <i class="fas fa-save"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="./estudiantes.js"></script>
+</body>
+</html>

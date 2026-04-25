@@ -1,34 +1,33 @@
 import bcrypt from 'bcrypt';
-import {FindUserByEmail} from '../models/auth.model.js';
+import { FindUserByEmail } from '../models/auth.model.js';
 
 export const login = async (req, res) => {
     try {
-        const {email, password} = req.body;
-        
+        const { email, password } = req.body;
 
-
-        if(!email || !password){
+        if (!email || !password) {
             return res.status(400).json({
                 ok: false,
-                message: 'Datos imcompletos'
+                message: 'Datos incompletos'
             });
         }
 
         const user = await FindUserByEmail(email);
 
-        if(!user){
+        if (!user) {
             return res.status(404).json({
                 ok: false,
                 message: 'Usuario no encontrado'
             });
         }
 
-        const validPassword = bcrypt.compare(password, user.password_hash);
-        
-        if(!validPassword){
+        const validPassword = await bcrypt.compare(password, user.password_hash);
+
+        if (!validPassword) {
             return res.status(401).json({
+                ok: false,
                 message: 'Contraseña incorrecta'
-            })
+            });
         }
 
         return res.status(200).json({
@@ -36,16 +35,19 @@ export const login = async (req, res) => {
             message: 'Login exitoso',
             user: {
                 id: user.id,
-                name: user.nombres,
-                email: user.email
+                first_name: user.first_name,   // ← TU columna
+                last_name: user.last_name,       // ← TU columna
+                email: user.email,
+                role: user.role                 // ← TU columna (no 'rol')
             }
-        })
-    }
-    catch (err){
+        });
+
+    } catch (err) {
+        console.error('Error en login:', err);
         return res.status(500).json({
             ok: false,
             message: 'Error del servidor',
-            error: err
-        })
+            error: err.message
+        });
     }
 };

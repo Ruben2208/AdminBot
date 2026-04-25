@@ -1,36 +1,10 @@
-import { request} from '../../shared/js/api.js';
-import {ValidarCorreo, limpiarError, mostrarError} from '../../shared/js/utils.js';
-import {guardarUsuario} from '../../shared/js/storage.js';
+import { validarCorreo, limpiarError, mostrarError } from '../../shared/js/utils.js';
+import { guardarUsuario } from '../../shared/js/storage.js';
 
-const form = document.getElementById('loginForm');
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const error = document.getElementById('errorMessage');
-const boton = document.getElementById('button-primary');
 
-form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    limpiarError();
-
-    const correo = email.value.trim();
-    const clave = password.value.trim();
-
-    if (!ValidarCorreo(correo)) {
-         mostrarError(error, 'correo invalido');
-         return;
-    }
-
-    if(clave.length < 6){
-       mostrarError(error, 'la contraseña debe tener minimo 6 caracteres');
-    }
-
-    try{}
-    catch{}
-    finally{}
-
- });
-
+// ============================================
+// CONFIGURACIÓN DE ROLES
+// ============================================
 
 const roleConfig = {
     admin: {
@@ -153,39 +127,26 @@ const roleConfig = {
 };
 
 
+// ============================================
+// VARIABLES GLOBALES
+// ============================================
+
 let currentRole = 'admin';
 
 const roleCards = document.querySelectorAll('.role-card');
 const roleSpecificContainer = document.getElementById('roleSpecificFields');
-const loginForm = document.getElementById('loginForm');
-const togglePasswordBtn = document.querySelector('.toggle-password');
-const passwordInput = document.getElementById('password');
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    updateRoleFields('admin');
-});
-
-
-roleCards.forEach(card => {
-    card.addEventListener('click', () => {
-        // Remover active de todos
-        roleCards.forEach(c => c.classList.remove('active'));
-        // Agregar active al seleccionado
-        card.classList.add('active');
-        // Actualizar rol
-        currentRole = card.dataset.role;
-        updateRoleFields(currentRole);
-    });
-});
-
+// ============================================
+// FUNCIONES DE ROLES
+// ============================================
 
 function updateRoleFields(role) {
     const config = roleConfig[role];
     if (config) {
         roleSpecificContainer.innerHTML = config.fields;
         roleSpecificContainer.classList.add('active');
-        
+
         // Animación de entrada
         roleSpecificContainer.style.animation = 'none';
         setTimeout(() => {
@@ -194,80 +155,22 @@ function updateRoleFields(role) {
     }
 }
 
-
-togglePasswordBtn.addEventListener('click', () => {
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    togglePasswordBtn.querySelector('i').classList.toggle('fa-eye');
-    togglePasswordBtn.querySelector('i').classList.toggle('fa-eye-slash');
-});
-
-
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(loginForm);
-    const data = {
-        role: currentRole,
-        email: formData.get('email'),
-        password: formData.get('password'),
-        remember: formData.get('remember') === 'on'
-    };
-
-    // Agregar campos específicos del rol
-    const roleFields = roleSpecificContainer.querySelectorAll('input, select');
-    roleFields.forEach(field => {
-        data[field.name] = field.value;
+// Selección de rol por cards
+roleCards.forEach(card => {
+    card.addEventListener('click', () => {
+        roleCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentRole = card.dataset.role;
+        updateRoleFields(currentRole);
     });
-
-    
-    if (!data.email || !data.password) {
-        showNotification('Por favor completa todos los campos', 'error');
-        return;
-    }
-
-    
-    const btn = loginForm.querySelector('.btn-login');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
-    btn.disabled = true;
-
-    try {
-        // Aquí iría la llamada real al backend
-        // const response = await fetch('/api/auth/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(data),
-        //     credentials: 'include'
-        // });
-
-        // Simulación de respuesta exitosa
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        // Redirección según rol
-        const redirectUrls = {
-            admin: '/pages/dashboard/index.html?role=admin',
-            teacher: '/pages/dashboard/index.html?role=teacher',
-            student: '/pages/dashboard/index.html?role=student',
-            parent: '/pages/dashboard/index.html?role=parent'
-        };
-
-        showNotification('¡Bienvenido a AdminBot!', 'success');
-        
-        setTimeout(() => {
-            window.location.href = redirectUrls[currentRole];
-        }, 1000);
-
-    } catch (error) {
-        showNotification('Error al iniciar sesión. Verifica tus credenciales.', 'error');
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }
 });
 
-// Sistema de notificaciones
+
+// ============================================
+// NOTIFICACIONES
+// ============================================
+
 function showNotification(message, type = 'info') {
-    // Remover notificación anterior si existe
     const existing = document.querySelector('.notification');
     if (existing) existing.remove();
 
@@ -277,8 +180,7 @@ function showNotification(message, type = 'info') {
         <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
         <span>${message}</span>
     `;
-    
-    // Estilos inline para la notificación
+
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -294,16 +196,162 @@ function showNotification(message, type = 'info') {
         z-index: 1000;
         animation: slideIn 0.3s ease;
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
 
-// Animaciones CSS adicionales
+
+// ============================================
+// INICIALIZACIÓN PRINCIPAL
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ========== PROTECCIÓN: Solo ejecutar en login ==========
+    const loginForm = document.getElementById('loginForm');
+
+    if (!loginForm) {
+        // No es la página de login, salir silenciosamente
+        return;
+    }
+    // ========================================================
+
+    console.log('DOM cargado - Página de login detectada');
+
+    const togglePasswordBtn = document.querySelector('.toggle-password');
+    const passwordInput = document.getElementById('password');
+
+    // 👁 Toggle contraseña
+    if (togglePasswordBtn) {
+        togglePasswordBtn.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            togglePasswordBtn.querySelector('i').classList.toggle('fa-eye');
+            togglePasswordBtn.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    }
+
+    // 🚀 Submit login
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        console.log('Formulario enviado');
+
+        // Limpiar errores previos
+        limpiarError();
+
+        // Obtener valores directamente de los inputs
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        const email = emailInput ? emailInput.value.trim() : '';
+        const password = passwordInput ? passwordInput.value.trim() : '';
+
+        // ========== VALIDACIONES FRONTEND ==========
+        if (!email) {
+            mostrarError(document.getElementById('error-email'), 'El correo es obligatorio');
+            showNotification('El correo es obligatorio', 'error');
+            return;
+        }
+
+        if (!validarCorreo(email)) {
+            mostrarError(document.getElementById('error-email'), 'Correo inválido');
+            showNotification('Ingresa un correo válido', 'error');
+            return;
+        }
+
+        if (!password) {
+            mostrarError(document.getElementById('error-password'), 'La contraseña es obligatoria');
+            showNotification('La contraseña es obligatoria', 'error');
+            return;
+        }
+
+        if (password.length < 6) {
+            mostrarError(document.getElementById('error-password'), 'Mínimo 6 caracteres');
+            showNotification('La contraseña debe tener mínimo 6 caracteres', 'error');
+            return;
+        }
+
+        // ========== PREPARAR DATOS ==========
+        const data = {
+            role: currentRole,
+            email: email,
+            password: password
+        };
+
+        console.log('Datos a enviar:', data);
+
+        // Botón de carga
+        const btnSubmit = loginForm.querySelector('button[type="submit"]');
+        const textoOriginal = btnSubmit ? btnSubmit.textContent : 'Ingresar';
+        if (btnSubmit) {
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Ingresando...';
+        }
+
+        try {
+            console.log('📤 DATOS ENVIADOS:', JSON.stringify(data, null, 2));
+
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            console.log('📥 STATUS:', response.status);
+
+            const contentType = response.headers.get('content-type');
+            console.log('📥 CONTENT-TYPE:', contentType);
+
+            let result;
+
+            if (contentType && contentType.includes('application/json')) {
+                result = await response.json();
+                console.log('📥 RESPUESTA JSON:', result);
+            } else {
+                const text = await response.text();
+                console.log('📥 RESPUESTA TEXTO:', text);
+                throw new Error('El servidor no devolvió JSON. ¿Está corriendo el backend?');
+            }
+
+            if (!response.ok) {
+                console.error('❌ ERROR DEL SERVIDOR:', result);
+                throw new Error(result.message || result.error || `Error ${response.status} del servidor`);
+            }
+
+            // ========== ÉXITO ==========
+            guardarUsuario(result.user);
+            showNotification('¡Bienvenido! Redirigiendo...', 'success');
+
+            setTimeout(() => {
+                window.location.href = '../../pages/dashboard/index.html';
+            }, 1000);
+
+        } catch (error) {
+            console.error('❌ ERROR REAL:', error);
+            showNotification(error.message || 'Error de conexión con el servidor', 'error');
+
+        } finally {
+            // Restaurar botón
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = textoOriginal;
+            }
+        }
+    });
+});
+
+
+// ============================================
+// ANIMACIONES CSS
+// ============================================
+
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
