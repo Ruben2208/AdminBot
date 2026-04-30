@@ -1,7 +1,6 @@
 import { validarCorreo, limpiarError, mostrarError } from '../../shared/js/utils.js';
 import { guardarUsuario } from '../../shared/js/storage.js';
 
-
 // ============================================
 // CONFIGURACIÓN DE ROLES
 // ============================================
