@@ -22,6 +22,7 @@ import asistenciaRoutes from './routes/asistencias.route.js';
 import notificacionRoutes from './routes/notificaciones.route.js';
 import authRoutes from './routes/auth.route.js';
 import dashboardRoutes from './routes/dashboard.route.js';
+import whatsappRoutes from './modules/whatsapp/whatsapp.routes.js';
 
 // 👇 USAR RUTAS
 app.use('/api', studenRoutes);
@@ -32,6 +33,7 @@ app.use('/api', asistenciaRoutes);
 app.use('/api', notificacionRoutes);
 app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
+app.use('/api', whatsappRoutes);
 
 // 👇 RUTA BASE
 app.get("/", (req, res) => {
