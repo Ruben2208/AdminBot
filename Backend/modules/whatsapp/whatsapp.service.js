@@ -25,3 +25,9 @@ export const sendWhatsappMessage = async (phone, message) => {
     console.error(error.response?.data || error.message);
   }
 };
+
+export const generateWhatsappUrl = (phone, message) => {
+
+  return `https://wa.me/57${phone}?text=${encodeURIComponent(message)}`;
+
+};

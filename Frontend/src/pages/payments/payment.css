@@ -1,0 +1,44 @@
+body{
+  font-family: Arial;
+  padding: 30px;
+}
+
+table{
+  width:100%;
+  border-collapse: collapse;
+}
+
+th, td{
+  border:1px solid #ddd;
+  padding:12px;
+}
+
+th{
+  background:#222;
+  color:white;
+}
+
+.paid{
+  background:#d4edda;
+  color:#155724;
+  padding:6px 12px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+.pending{
+  background:#f8d7da;
+  color:#721c24;
+  padding:6px 12px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+button{
+  padding:8px 14px;
+  border:none;
+  background:#007bff;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
