@@ -1,4 +1,5 @@
 import db from '../config/db.js';
+import { randomUUID } from 'crypto';
 
 export const getAll = async () => {
   const [rows] = await db.query('SELECT * FROM students');
