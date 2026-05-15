@@ -133,8 +133,18 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="top-bar-actions">
-                    <button class="btn-icon">
-                        <i class="fas fa-search"></i>
+                    <div id="searchResults" class="search-results"></div>
+                    <div class="search-box">
+
+    <i class="fas fa-search"></i>
+
+    <input
+        type="text"
+        id="globalSearch"
+        placeholder="Buscar estudiante, acudiente..."
+    >
+
+</div>
                     </button>
                     <button class="btn-icon">
                         <i class="fas fa-bell"></i>
@@ -152,6 +162,22 @@
                 <div class="welcome-section" id="welcomeSection">
                     <h1 id="welcomeTitle">Bienvenido</h1>
                     <p id="welcomeSubtitle">Aquí está el resumen de tu actividad</p>
+
+                </div><div class="quick-actions">
+
+                 <button class="quick-btn" id="btnOpenStudentModal">
+                 <i class="fas fa-user-plus"></i>
+                  Nuevo Estudiante
+                 </button>
+
+                 <button class="quick-btn" id="btnOpenPaymentModal">
+
+                   <i class="fas fa-money-bill-wave"></i>
+
+                    Registrar Pago
+
+                    </button>
+
                 </div>
 
                 <!-- Stats Grid -->
@@ -220,6 +246,171 @@
     <span>Estudiantes</span>
    </a>
 
+   <!-- MODAL ESTUDIANTE -->
+
+<div class="modal-overlay" id="studentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>Nuevo Estudiante</h2>
+
+            <button class="close-modal" id="closeStudentModal">
+                &times;
+            </button>
+
+        </div>
+
+        <form id="studentForm">
+
+            <div class="form-grid">
+
+                <input
+                    type="text"
+                    name="first_name"
+                    placeholder="Nombres"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="last_name"
+                    placeholder="Apellidos"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="document_number"
+                    placeholder="Documento"
+                    required
+                >
+
+                <input
+                    type="text"
+                    name="grade"
+                    placeholder="Grado"
+                >
+
+                <input
+                    type="text"
+                    name="guardian_phone"
+                    placeholder="Teléfono acudiente"
+                >
+
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Guardar estudiante
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL PAGOS -->
+
+<div class="modal-overlay" id="paymentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>Registrar Pago</h2>
+
+            <button class="close-modal" id="closePaymentModal">
+                &times;
+            </button>
+
+        </div>
+
+        <form id="paymentForm">
+
+            <div class="form-grid">
+
+                <select
+    name="student_id"
+    id="paymentStudentSelect"
+    required
+>
+
+    <option value="">
+        Selecciona estudiante
+    </option>
+
+</select>
+
+                <input
+                    type="number"
+                    name="amount_paid"
+                    placeholder="Monto"
+                    required
+                >
+
+                <select name="payment_method">
+
+                    <option value="cash">
+                        Efectivo
+                    </option>
+
+                    <option value="transfer">
+                        Transferencia
+                    </option>
+
+                    <option value="card">
+                        Tarjeta
+                    </option>
+
+                </select>
+
+                <input
+                    type="text"
+                    name="reference"
+                    placeholder="Referencia"
+                >
+
+            </div>
+
+            <button type="submit" class="submit-btn">
+
+                Registrar pago
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card">
+
+    <div class="card-header">
+
+        <h3>
+            Pagos Pendientes
+        </h3>
+
+    </div>
+
+    <div
+        id="pendingPaymentsContainer"
+        class="card-content"
+    >
+
+    </div>
+
+</div>
+
+<div id="alertsContainer"
+     class="alerts-grid">
+</div>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script type="module" src="./dashboard.js"></script>
 </body>
 </html>

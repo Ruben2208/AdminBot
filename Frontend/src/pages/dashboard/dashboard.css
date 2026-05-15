@@ -519,3 +519,272 @@ body {
         padding: 1rem;
     }
 }
+
+.payment-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.payment-info h4{
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.payment-info p{
+    font-size:12px;
+    color:#777;
+}
+
+.payment-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:5px;
+}
+
+.payment-amount{
+    font-weight:600;
+}
+
+.payment-status{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    text-transform:capitalize;
+}
+
+.payment-status.paid{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.payment-status.pending{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.search-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:white;
+    padding:10px 15px;
+    border-radius:10px;
+    width:300px;
+    border:1px solid #ddd;
+}
+
+.search-box input{
+    border:none;
+    outline:none;
+    width:100%;
+}
+
+.search-results{
+    position:absolute;
+    top:70px;
+    right:20px;
+    width:350px;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+    overflow:hidden;
+    z-index:100;
+}
+
+.search-item{
+    padding:15px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+}
+
+.search-item:hover{
+    background:#f5f5f5;
+}
+
+.search-item h4{
+    font-size:14px;
+}
+
+.search-item p{
+    font-size:12px;
+    color:#777;
+}
+
+.search-empty{
+    padding:20px;
+    text-align:center;
+}
+
+.quick-actions{
+    margin-top:20px;
+}
+
+.quick-btn{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+}
+
+.modal-overlay.active{
+    display:flex;
+}
+
+.modal{
+    background:white;
+    width:500px;
+    border-radius:20px;
+    padding:25px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close-modal{
+    border:none;
+    background:none;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.form-grid{
+    display:grid;
+    gap:15px;
+}
+
+.form-grid input{
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ddd;
+}
+
+.submit-btn{
+    width:100%;
+    margin-top:20px;
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.activity-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.activity-icon{
+    width:45px;
+    height:45px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+}
+
+.activity-icon.payment{
+    background:#10b981;
+}
+
+.activity-icon.student{
+    background:#4f46e5;
+}
+
+.activity-info{
+    flex:1;
+    margin-left:15px;
+}
+
+.activity-info h4{
+    margin:0;
+    font-size:14px;
+}
+
+.activity-info p{
+    margin:4px 0 0;
+    color:#666;
+    font-size:13px;
+}
+
+.activity-amount{
+    font-weight:700;
+    color:#10b981;
+}
+
+.activity-grade{
+    font-weight:600;
+    color:#4f46e5;
+}
+
+.pending-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.btn-whatsapp{
+    border:none;
+    background:#25D366;
+    color:white;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.alerts-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+.alert-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:20px;
+    border-radius:14px;
+    color:white;
+}
+
+.alert-card i{
+    font-size:28px;
+}
+
+.alert-card.danger{
+    background:#ef4444;
+}
+
+.alert-card.warning{
+    background:#f59e0b;
+}
